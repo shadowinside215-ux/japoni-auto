@@ -40,6 +40,8 @@ export default function CarCard({ car, onClick }: CarCardProps) {
         onClick={() => onClick(car)}
         className="group bg-brand-grey rounded-2xl overflow-hidden cursor-pointer border border-white/5 hover:border-white/20 transition-all duration-500 relative"
       >
+        {/* Admin Edit/Delete Buttons Hidden as per user request */}
+        {/* 
         {isAdmin && (
           <div className="absolute top-4 right-4 z-10 flex gap-2">
             <button
@@ -58,6 +60,7 @@ export default function CarCard({ car, onClick }: CarCardProps) {
             </button>
           </div>
         )}
+        */}
 
         <div className="relative aspect-[16/10] overflow-hidden">
           <img

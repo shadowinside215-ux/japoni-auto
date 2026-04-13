@@ -50,6 +50,8 @@ export default function CarGrid({ cars, onCarSelect }: CarGridProps) {
             >
               {t('inventory.description')}
             </motion.p>
+            {/* Admin Add Car Button Hidden as per user request */}
+            {/* 
             {isAdmin && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -62,6 +64,7 @@ export default function CarGrid({ cars, onCarSelect }: CarGridProps) {
                 Add New Car
               </motion.button>
             )}
+            */}
           </div>
         </div>
 

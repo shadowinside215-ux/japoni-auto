@@ -94,6 +94,8 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
               <span className="text-white font-display font-bold text-lg tracking-tight">JAPONI AUTO</span>
               <span className="text-gray-400 text-[10px] tracking-[0.2em] uppercase">Rabat</span>
             </div>
+            {/* Logo Upload Hidden as per user request */}
+            {/* 
             {isAdmin && (
               <button
                 onClick={() => openUploadWidget(handleUpdateLogo)}
@@ -103,6 +105,7 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
                 <Upload size={12} />
               </button>
             )}
+            */}
           </div>
         </div>
 
@@ -136,6 +139,8 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
           </div>
 
           <div className="flex items-center gap-4">
+            {/* Admin Login Hidden as per user request */}
+            {/* 
             {user ? (
               <button
                 onClick={logout}
@@ -157,6 +162,7 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
                 <LogIn size={20} />
               </button>
             )}
+            */}
 
             <a
               href="https://wa.me/212661294981"
@@ -215,6 +221,8 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
               </a>
             ))}
             
+            {/* Admin Login Hidden as per user request */}
+            {/* 
             <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
               {user ? (
                 <button
@@ -240,6 +248,18 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
                 </button>
               )}
               
+              <a
+                href="https://wa.me/212661294981"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 bg-white text-brand-black py-3 rounded-lg font-bold"
+              >
+                <MessageSquare size={20} />
+                {t('hero.whatsapp')}
+              </a>
+            </div>
+            */}
+            <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
               <a
                 href="https://wa.me/212661294981"
                 target="_blank"

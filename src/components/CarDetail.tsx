@@ -63,6 +63,8 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
                 <h2 className="text-xl font-display font-bold text-white">{car.name}</h2>
               </div>
               <div className="flex items-center gap-4">
+                {/* Admin Edit/Delete Buttons Hidden as per user request */}
+                {/* 
                 {isAdmin && (
                   <div className="flex items-center gap-2 mr-4 border-r border-white/10 pr-4">
                     <button
@@ -81,6 +83,7 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
                     </button>
                   </div>
                 )}
+                */}
                 <span className="text-2xl font-bold text-white">{car.price}</span>
                 <a
                   href={`https://wa.me/212661294981?text=I'm interested in the ${car.name}`}
