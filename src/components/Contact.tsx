@@ -1,7 +1,10 @@
 import { motion } from 'motion/react';
-import { Phone, MapPin, MessageSquare, Mail, Send } from 'lucide-react';
+import { Phone, MapPin, MessageSquare, Mail } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function Contact() {
+  const { t } = useTranslation();
+
   return (
     <section id="contact" className="py-24 px-6 bg-brand-grey">
       <div className="max-w-7xl mx-auto">
@@ -13,7 +16,7 @@ export default function Contact() {
               viewport={{ once: true }}
               className="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 block"
             >
-              Get In Touch
+              {t('contact.badge')}
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -22,8 +25,8 @@ export default function Contact() {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-display font-bold text-white mb-8"
             >
-              Ready to Drive Your <br />
-              <span className="text-gray-500">Dream Car?</span>
+              {t('contact.title')} <br />
+              <span className="text-gray-500">{t('contact.subtitle')}</span>
             </motion.h2>
 
             <div className="space-y-8 mb-12">
@@ -32,7 +35,7 @@ export default function Contact() {
                   <Phone size={24} className="text-white" />
                 </div>
                 <div>
-                  <h4 className="text-gray-400 text-sm uppercase tracking-widest mb-1">Call Us</h4>
+                  <h4 className="text-gray-400 text-sm uppercase tracking-widest mb-1">{t('contact.callUs')}</h4>
                   <p className="text-xl font-bold text-white">06 61 29 49 81</p>
                 </div>
               </div>
@@ -42,7 +45,7 @@ export default function Contact() {
                   <MapPin size={24} className="text-white" />
                 </div>
                 <div>
-                  <h4 className="text-gray-400 text-sm uppercase tracking-widest mb-1">Visit Showroom</h4>
+                  <h4 className="text-gray-400 text-sm uppercase tracking-widest mb-1">{t('contact.visit')}</h4>
                   <p className="text-xl font-bold text-white">86 Avenue Al Mohit Al Hadi, Rabat</p>
                 </div>
               </div>
@@ -52,7 +55,7 @@ export default function Contact() {
                   <Mail size={24} className="text-white" />
                 </div>
                 <div>
-                  <h4 className="text-gray-400 text-sm uppercase tracking-widest mb-1">Email Us</h4>
+                  <h4 className="text-gray-400 text-sm uppercase tracking-widest mb-1">{t('contact.email')}</h4>
                   <p className="text-xl font-bold text-white">contact@japoniauto.ma</p>
                 </div>
               </div>
@@ -76,70 +79,29 @@ export default function Contact() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-brand-black p-10 rounded-[2.5rem] border border-white/10"
+            className="bg-brand-black p-10 rounded-[2.5rem] border border-white/10 flex flex-col items-center justify-center text-center"
           >
-            <h3 className="text-2xl font-display font-bold text-white mb-8">Send a Message</h3>
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Full Name</label>
-                  <input
-                    type="text"
-                    placeholder="John Doe"
-                    className="w-full bg-brand-light-grey border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-white/30 transition-colors"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Phone Number</label>
-                  <input
-                    type="tel"
-                    placeholder="+212 ..."
-                    className="w-full bg-brand-light-grey border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-white/30 transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Interested In</label>
-                <select className="w-full bg-brand-light-grey border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-white/30 transition-colors appearance-none">
-                  <option>Select a Vehicle</option>
-                  <option>BMW X5</option>
-                  <option>Mercedes G63</option>
-                  <option>Porsche 911</option>
-                  <option>Other</option>
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Message</label>
-                <textarea
-                  rows={4}
-                  placeholder="Tell us about your requirements..."
-                  className="w-full bg-brand-light-grey border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-white/30 transition-colors resize-none"
-                ></textarea>
-              </div>
-
-              <button className="w-full group flex items-center justify-center gap-2 bg-white text-brand-black py-5 rounded-2xl font-bold text-lg hover:bg-gray-200 transition-all">
-                Send Message
-                <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </button>
-
-              <div className="text-center pt-4">
-                <p className="text-gray-500 text-sm mb-4">Or contact us directly via</p>
-                <a
-                  href="https://wa.me/212661294981"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-white font-bold hover:text-gray-300 transition-colors"
-                >
-                  <MessageSquare size={20} />
-                  WhatsApp Support
-                </a>
-              </div>
-            </form>
+            <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-6">
+              <MessageSquare size={40} className="text-green-500" />
+            </div>
+            <h3 className="text-3xl font-display font-bold text-white mb-4">{t('contact.whatsappTitle')}</h3>
+            <p className="text-gray-400 mb-8 max-w-sm">
+              {t('contact.whatsappDesc')}
+            </p>
+            <a
+              href="https://wa.me/212661294981"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full group flex items-center justify-center gap-3 bg-green-600 text-white py-5 rounded-2xl font-bold text-xl hover:bg-green-500 transition-all"
+            >
+              <MessageSquare size={24} />
+              {t('contact.chatNow')}
+            </a>
+            <p className="mt-6 text-gray-500 font-medium">{t('contact.available')}</p>
           </motion.div>
         </div>
       </div>
     </section>
   );
 }
+

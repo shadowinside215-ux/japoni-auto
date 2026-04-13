@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Calendar, Gauge, Fuel, MessageSquare, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { X, MessageSquare, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Car } from '@/src/data/cars';
 
 interface CarDetailProps {
@@ -10,6 +11,7 @@ interface CarDetailProps {
 
 export default function CarDetail({ car, onClose }: CarDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { t } = useTranslation();
 
   if (!car) return null;
 
@@ -51,7 +53,7 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
                   className="hidden md:flex items-center gap-2 bg-white text-brand-black px-6 py-2 rounded-full font-bold hover:bg-gray-200 transition-colors"
                 >
                   <MessageSquare size={18} />
-                  Inquire Now
+                  {t('carDetail.inquireNow')}
                 </a>
               </div>
             </div>
@@ -99,12 +101,12 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
                 </div>
 
                 <div className="bg-brand-grey p-8 rounded-3xl border border-white/5">
-                  <h3 className="text-xl font-display font-bold text-white mb-6">Specifications</h3>
+                  <h3 className="text-xl font-display font-bold text-white mb-6">{t('carDetail.specs')}</h3>
                   <div className="grid grid-cols-2 gap-y-6 gap-x-12">
                     {[
-                      { label: 'Year', value: car.year },
-                      { label: 'Mileage', value: car.mileage },
-                      { label: 'Fuel Type', value: car.fuelType },
+                      { label: t('inventory.year'), value: car.year },
+                      { label: t('inventory.mileage'), value: car.mileage },
+                      { label: t('inventory.fuel'), value: car.fuelType },
                       { label: 'Transmission', value: car.transmission },
                       { label: 'Engine', value: car.engine },
                       { label: 'Power', value: car.power },
@@ -137,33 +139,33 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
                 </div>
 
                 <div className="bg-brand-grey p-8 rounded-3xl border border-white/5">
-                  <h3 className="text-xl font-display font-bold text-white mb-6">Interested in this vehicle?</h3>
+                  <h3 className="text-xl font-display font-bold text-white mb-6">{t('carDetail.interested')}</h3>
                   <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                     <div className="grid grid-cols-2 gap-4">
                       <input
                         type="text"
-                        placeholder="Your Name"
+                        placeholder={t('carDetail.name')}
                         className="w-full bg-brand-black border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30"
                       />
                       <input
                         type="tel"
-                        placeholder="Phone Number"
+                        placeholder={t('carDetail.phone')}
                         className="w-full bg-brand-black border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30"
                       />
                     </div>
                     <select className="w-full bg-brand-black border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 appearance-none">
-                      <option>Payment Method</option>
-                      <option>Cash</option>
-                      <option>Financing</option>
+                      <option>{t('carDetail.payment')}</option>
+                      <option>{t('carDetail.cash')}</option>
+                      <option>{t('carDetail.financing')}</option>
                     </select>
                     <select className="w-full bg-brand-black border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 appearance-none">
-                      <option>When do you want to buy?</option>
-                      <option>Immediately</option>
-                      <option>Within a week</option>
-                      <option>Within a month</option>
+                      <option>{t('carDetail.when')}</option>
+                      <option>{t('carDetail.immediately')}</option>
+                      <option>{t('carDetail.week')}</option>
+                      <option>{t('carDetail.month')}</option>
                     </select>
                     <button className="w-full bg-white text-brand-black py-4 rounded-xl font-bold text-lg hover:bg-gray-200 transition-all">
-                      Send Inquiry
+                      {t('carDetail.send')}
                     </button>
                     <a
                       href={`https://wa.me/212661294981?text=I'm interested in the ${car.name}`}
@@ -172,7 +174,7 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
                       className="w-full flex items-center justify-center gap-2 border-2 border-white/10 text-white py-4 rounded-xl font-bold text-lg hover:bg-white/5 transition-all"
                     >
                       <MessageSquare size={20} />
-                      Chat on WhatsApp
+                      {t('carDetail.chat')}
                     </a>
                   </form>
                 </div>
@@ -194,3 +196,4 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
     </AnimatePresence>
   );
 }
+

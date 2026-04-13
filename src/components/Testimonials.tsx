@@ -1,28 +1,31 @@
 import { motion } from 'motion/react';
 import { Star, Quote } from 'lucide-react';
-
-const testimonials = [
-  {
-    name: 'Ahmed Benjelloun',
-    role: 'Business Owner',
-    content: 'The best car buying experience I have had in Morocco. Transparent, professional, and the car was exactly as described.',
-    rating: 5
-  },
-  {
-    name: 'Sara El Amrani',
-    role: 'Executive',
-    content: 'Japoni Auto Rabat is the place to go if you are looking for serious sellers. No time wasted, just pure professionalism.',
-    rating: 5
-  },
-  {
-    name: 'Youssef Mansouri',
-    role: 'Car Enthusiast',
-    content: 'Exceptional inventory. I found my dream Porsche here and the process was incredibly smooth. Highly recommended.',
-    rating: 5
-  }
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Testimonials() {
+  const { t, i18n } = useTranslation();
+
+  const testimonials = [
+    {
+      name: 'Ahmed Benjelloun',
+      role: 'Business Owner',
+      content: i18n.language === 'ar' ? 'أفضل تجربة شراء سيارة خضتها في المغرب. شفافة واحترافية والسيارة كانت تماماً كما وصفت.' : 'The best car buying experience I have had in Morocco. Transparent, professional, and the car was exactly as described.',
+      rating: 5
+    },
+    {
+      name: 'Sara El Amrani',
+      role: 'Executive',
+      content: i18n.language === 'ar' ? 'جابوني أوتو الرباط هو المكان المناسب إذا كنت تبحث عن بائعين جادين. لا وقت ضائع، فقط احترافية تامة.' : 'Japoni Auto Rabat is the place to go if you are looking for serious sellers. No time wasted, just pure professionalism.',
+      rating: 5
+    },
+    {
+      name: 'Youssef Mansouri',
+      role: 'Car Enthusiast',
+      content: i18n.language === 'ar' ? 'مخزون استثنائي. وجدت سيارة بورش التي كنت أحلم بها هنا وكانت العملية سلسة للغاية. موصى به بشدة.' : 'Exceptional inventory. I found my dream Porsche here and the process was incredibly smooth. Highly recommended.',
+      rating: 5
+    }
+  ];
+
   return (
     <section className="py-24 px-6 bg-brand-black">
       <div className="max-w-7xl mx-auto">
@@ -33,7 +36,7 @@ export default function Testimonials() {
             viewport={{ once: true }}
             className="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 block"
           >
-            Client Stories
+            {t('testimonials.badge')}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -42,7 +45,7 @@ export default function Testimonials() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-display font-bold text-white"
           >
-            What Our Clients Say
+            {t('testimonials.title')}
           </motion.h2>
         </div>
 

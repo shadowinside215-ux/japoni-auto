@@ -1,6 +1,9 @@
-import { Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { Facebook, Shield } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-brand-black border-t border-white/5 py-20 px-6">
       <div className="max-w-7xl mx-auto">
@@ -16,25 +19,27 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-500 leading-relaxed mb-8">
-              The premier destination for luxury and high-performance vehicles in Rabat. 
-              We pride ourselves on our curated selection and exceptional customer service.
+              {t('footer.desc')}
             </p>
             <div className="flex gap-4">
-              {[Instagram, Facebook, Twitter, Linkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-gray-400 hover:bg-white hover:text-brand-black transition-all">
-                  <Icon size={18} />
-                </a>
-              ))}
+              <a href="https://www.facebook.com/people/Japoni-Auto/100057140602796/?locale=fr_FR#" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-gray-400 hover:bg-white hover:text-brand-black transition-all">
+                <Facebook size={18} />
+              </a>
             </div>
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-sm">Quick Links</h4>
+            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-sm">{t('footer.quickLinks')}</h4>
             <ul className="space-y-4">
-              {['Home', 'Inventory', 'Why Us', 'Testimonials', 'Contact'].map((item) => (
-                <li key={item}>
-                  <a href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-gray-500 hover:text-white transition-colors">
-                    {item}
+              {[
+                { name: t('nav.home'), href: '#' },
+                { name: t('nav.inventory'), href: '#inventory' },
+                { name: t('nav.whyUs'), href: '#why-us' },
+                { name: t('nav.contact'), href: '#contact' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} className="text-gray-500 hover:text-white transition-colors">
+                    {item.name}
                   </a>
                 </li>
               ))}
@@ -42,7 +47,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-sm">Inventory</h4>
+            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-sm">{t('footer.inventory')}</h4>
             <ul className="space-y-4">
               {['Luxury Sedans', 'Performance SUVs', 'Sports Cars', 'Electric Vehicles', 'New Arrivals'].map((item) => (
                 <li key={item}>
@@ -55,8 +60,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-sm">Newsletter</h4>
-            <p className="text-gray-500 mb-6">Subscribe to get notified about our latest arrivals.</p>
+            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-sm">{t('footer.newsletter')}</h4>
+            <p className="text-gray-500 mb-6">{t('footer.newsletterDesc')}</p>
             <div className="relative">
               <input
                 type="email"
@@ -64,7 +69,7 @@ export default function Footer() {
                 className="w-full bg-brand-light-grey border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30"
               />
               <button className="absolute right-2 top-2 bottom-2 bg-white text-brand-black px-4 rounded-lg font-bold text-sm">
-                Join
+                {t('footer.join')}
               </button>
             </div>
           </div>
@@ -74,12 +79,17 @@ export default function Footer() {
           <p className="text-gray-600 text-sm">
             © {new Date().getFullYear()} Japoni Auto Rabat. All rights reserved.
           </p>
-          <div className="flex gap-8">
-            <a href="#" className="text-gray-600 hover:text-white text-sm transition-colors">Privacy Policy</a>
-            <a href="#" className="text-gray-600 hover:text-white text-sm transition-colors">Terms of Service</a>
+          <div className="flex items-center gap-8">
+            <a href="#" className="text-gray-600 hover:text-white text-sm transition-colors">{t('footer.privacy')}</a>
+            <a href="#" className="text-gray-600 hover:text-white text-sm transition-colors">{t('footer.terms')}</a>
+            <a href="/admin" className="flex items-center gap-2 text-gray-600 hover:text-white text-sm transition-colors">
+              <Shield size={14} />
+              {t('nav.admin')}
+            </a>
           </div>
         </div>
       </div>
     </footer>
   );
 }
+

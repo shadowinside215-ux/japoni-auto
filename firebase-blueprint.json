@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "Car": {
+      "title": "Car",
+      "description": "A vehicle available in the dealership inventory",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "year": { "type": "number" },
+        "price": { "type": "string" },
+        "mileage": { "type": "string" },
+        "fuelType": { "type": "string" },
+        "transmission": { "type": "string" },
+        "engine": { "type": "string" },
+        "power": { "type": "string" },
+        "images": { 
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "description": { "type": "string" },
+        "features": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "price", "images"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Global website settings",
+      "type": "object",
+      "properties": {
+        "logoUrl": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "User": {
+      "title": "User",
+      "description": "A user of the system",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] }
+      }
+    }
+  },
+  "firestore": {
+    "/cars/{carId}": {
+      "schema": "Car",
+      "description": "Inventory of cars"
+    },
+    "/settings/global": {
+      "schema": "Settings",
+      "description": "Global configuration"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and roles"
+    }
+  }
+}

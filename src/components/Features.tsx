@@ -1,30 +1,33 @@
 import { motion } from 'motion/react';
 import { ShieldCheck, BadgeCheck, Zap, HeartHandshake } from 'lucide-react';
-
-const features = [
-  {
-    icon: ShieldCheck,
-    title: 'High-Quality Vehicles',
-    description: 'Every car in our showroom undergoes a rigorous multi-point inspection process.'
-  },
-  {
-    icon: BadgeCheck,
-    title: 'Transparent Pricing',
-    description: 'No hidden fees or surprises. We provide clear, honest pricing on every vehicle.'
-  },
-  {
-    icon: Zap,
-    title: 'Fast & Easy Process',
-    description: 'From viewing to ownership, we streamline every step for a seamless experience.'
-  },
-  {
-    icon: HeartHandshake,
-    title: 'Serious Sellers Only',
-    description: 'We curate our inventory from trusted sources to ensure maximum reliability.'
-  }
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Features() {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      icon: ShieldCheck,
+      title: t('whyUs.quality.title'),
+      description: t('whyUs.quality.desc')
+    },
+    {
+      icon: BadgeCheck,
+      title: t('whyUs.pricing.title'),
+      description: t('whyUs.pricing.desc')
+    },
+    {
+      icon: Zap,
+      title: t('whyUs.process.title'),
+      description: t('whyUs.process.desc')
+    },
+    {
+      icon: HeartHandshake,
+      title: t('whyUs.sellers.title'),
+      description: t('whyUs.sellers.desc')
+    }
+  ];
+
   return (
     <section id="why-us" className="py-24 px-6 bg-brand-grey relative overflow-hidden">
       {/* Subtle background pattern */}
@@ -40,7 +43,7 @@ export default function Features() {
             viewport={{ once: true }}
             className="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 block"
           >
-            The Japoni Standard
+            {t('whyUs.badge')}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -49,7 +52,7 @@ export default function Features() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-display font-bold text-white mb-6"
           >
-            Why Choose Us
+            {t('whyUs.title')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -58,8 +61,7 @@ export default function Features() {
             transition={{ delay: 0.2 }}
             className="text-gray-400 text-lg"
           >
-            We don't just sell cars; we provide a premium automotive experience 
-            built on trust, quality, and exceptional service.
+            {t('whyUs.description')}
           </motion.p>
         </div>
 

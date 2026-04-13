@@ -1,7 +1,10 @@
 import { motion } from 'motion/react';
 import { ChevronRight, MessageSquare } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function Hero() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-center">
       {/* Background Image with Overlay */}
@@ -30,7 +33,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-6"
           >
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <span className="text-xs font-bold tracking-widest uppercase">Premium Showroom Rabat</span>
+            <span className="text-xs font-bold tracking-widest uppercase">{t('hero.badge')}</span>
           </motion.div>
 
           <motion.h1
@@ -39,8 +42,8 @@ export default function Hero() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="text-5xl md:text-7xl font-display font-bold leading-[1.1] mb-6"
           >
-            Find Your Next Car <br />
-            <span className="text-gray-400">with Confidence.</span>
+            {t('hero.title')} <br />
+            <span className="text-gray-400">{t('hero.subtitle')}</span>
           </motion.h1>
 
           <motion.p
@@ -49,8 +52,7 @@ export default function Hero() {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed"
           >
-            Serious cars. Serious buyers. No time wasted. <br />
-            Experience the pinnacle of automotive excellence in Morocco.
+            {t('hero.description')}
           </motion.p>
 
           <motion.div
@@ -63,7 +65,7 @@ export default function Hero() {
               href="#inventory"
               className="group flex items-center justify-center gap-2 bg-white text-brand-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transition-all"
             >
-              View Available Cars
+              {t('hero.viewCars')}
               <ChevronRight className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a
@@ -73,7 +75,7 @@ export default function Hero() {
               className="flex items-center justify-center gap-2 bg-transparent border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all"
             >
               <MessageSquare size={20} />
-              Contact on WhatsApp
+              {t('hero.whatsapp')}
             </a>
           </motion.div>
         </motion.div>

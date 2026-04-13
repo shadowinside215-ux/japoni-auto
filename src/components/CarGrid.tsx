@@ -1,12 +1,16 @@
 import { motion } from 'motion/react';
 import CarCard from './CarCard';
-import { cars, Car } from '@/src/data/cars';
+import { Car } from '@/src/data/cars';
+import { useTranslation } from 'react-i18next';
 
 interface CarGridProps {
+  cars: Car[];
   onCarSelect: (car: Car) => void;
 }
 
-export default function CarGrid({ onCarSelect }: CarGridProps) {
+export default function CarGrid({ cars, onCarSelect }: CarGridProps) {
+  const { t } = useTranslation();
+
   return (
     <section id="inventory" className="py-24 px-6 bg-brand-black">
       <div className="max-w-7xl mx-auto">
@@ -18,7 +22,7 @@ export default function CarGrid({ onCarSelect }: CarGridProps) {
               viewport={{ once: true }}
               className="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 block"
             >
-              Exclusive Inventory
+              {t('inventory.badge')}
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -27,7 +31,7 @@ export default function CarGrid({ onCarSelect }: CarGridProps) {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-display font-bold text-white"
             >
-              Featured Vehicles
+              {t('inventory.title')}
             </motion.h2>
           </div>
           <motion.p
@@ -37,8 +41,7 @@ export default function CarGrid({ onCarSelect }: CarGridProps) {
             transition={{ delay: 0.2 }}
             className="text-gray-400 max-w-md"
           >
-            Explore our curated selection of high-performance and luxury vehicles, 
-            each inspected to meet our rigorous standards of quality.
+            {t('inventory.description')}
           </motion.p>
         </div>
 

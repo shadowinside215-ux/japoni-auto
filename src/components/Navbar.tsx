@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Phone, MessageSquare } from 'lucide-react';
+import { Menu, X, Phone, MessageSquare, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/src/lib/utils';
 
-export default function Navbar() {
+export default function Navbar({ logoUrl }: { logoUrl?: string }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,10 +18,16 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'Inventory', href: '#inventory' },
-    { name: 'Why Us', href: '#why-us' },
-    { name: 'Contact', href: '#contact' },
+    { name: t('nav.home'), href: '#' },
+    { name: t('nav.inventory'), href: '#inventory' },
+    { name: t('nav.whyUs'), href: '#why-us' },
+    { name: t('nav.contact'), href: '#contact' },
+  ];
+
+  const languages = [
+    { code: 'en', name: 'EN' },
+    { code: 'fr', name: 'FR' },
+    { code: 'ar', name: 'AR' },
   ];
 
   return (
@@ -31,13 +39,19 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-white flex items-center justify-center rounded-sm">
-            <span className="text-brand-black font-bold text-xl">J</span>
-          </div>
-          <div className="flex flex-col leading-none">
-            <span className="text-white font-display font-bold text-lg tracking-tight">JAPONI AUTO</span>
-            <span className="text-gray-400 text-[10px] tracking-[0.2em] uppercase">Rabat</span>
-          </div>
+          {logoUrl ? (
+            <img src={logoUrl} alt="Japoni Auto" className="h-10 w-auto object-contain" />
+          ) : (
+            <>
+              <div className="w-10 h-10 bg-white flex items-center justify-center rounded-sm">
+                <span className="text-brand-black font-bold text-xl">J</span>
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="text-white font-display font-bold text-lg tracking-tight">JAPONI AUTO</span>
+                <span className="text-gray-400 text-[10px] tracking-[0.2em] uppercase">Rabat</span>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Desktop Nav */}
@@ -51,6 +65,24 @@ export default function Navbar() {
               {link.name}
             </a>
           ))}
+          
+          {/* Language Switcher */}
+          <div className="flex items-center gap-3 border-l border-white/10 pl-8">
+            <Globe size={14} className="text-gray-500" />
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => i18n.changeLanguage(lang.code)}
+                className={cn(
+                  "text-xs font-bold transition-colors",
+                  i18n.language === lang.code ? "text-white" : "text-gray-500 hover:text-gray-300"
+                )}
+              >
+                {lang.name}
+              </button>
+            ))}
+          </div>
+
           <a
             href="https://wa.me/212661294981"
             target="_blank"
@@ -58,17 +90,33 @@ export default function Navbar() {
             className="flex items-center gap-2 bg-white text-brand-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors"
           >
             <MessageSquare size={16} />
-            WhatsApp
+            {t('hero.whatsapp')}
           </a>
         </div>
 
         {/* Mobile Toggle */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-4 md:hidden">
+          <div className="flex gap-3 mr-2">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => i18n.changeLanguage(lang.code)}
+                className={cn(
+                  "text-xs font-bold",
+                  i18n.language === lang.code ? "text-white" : "text-gray-500"
+                )}
+              >
+                {lang.name}
+              </button>
+            ))}
+          </div>
+          <button
+            className="text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -97,7 +145,7 @@ export default function Navbar() {
               className="flex items-center justify-center gap-2 bg-white text-brand-black py-3 rounded-lg font-bold"
             >
               <MessageSquare size={20} />
-              WhatsApp
+              {t('hero.whatsapp')}
             </a>
           </motion.div>
         )}
@@ -105,3 +153,4 @@ export default function Navbar() {
     </nav>
   );
 }
+
