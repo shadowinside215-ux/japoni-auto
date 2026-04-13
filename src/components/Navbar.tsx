@@ -82,39 +82,28 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {logoUrl ? (
-            <div className="relative group">
+          <div className="relative group flex items-center gap-3">
+            {logoUrl ? (
               <img src={logoUrl} alt="Japoni Auto" className="h-10 w-auto object-contain" />
-              {isAdmin && (
-                <button
-                  onClick={() => openUploadWidget(handleUpdateLogo)}
-                  className="absolute -bottom-2 -right-2 bg-white text-brand-black p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
-                  title="Change Logo"
-                >
-                  <Upload size={12} />
-                </button>
-              )}
-            </div>
-          ) : (
-            <div className="relative group flex items-center gap-2">
+            ) : (
               <div className="w-10 h-10 bg-white flex items-center justify-center rounded-sm">
                 <span className="text-brand-black font-bold text-xl">J</span>
               </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-white font-display font-bold text-lg tracking-tight">JAPONI AUTO</span>
-                <span className="text-gray-400 text-[10px] tracking-[0.2em] uppercase">Rabat</span>
-              </div>
-              {isAdmin && (
-                <button
-                  onClick={() => openUploadWidget(handleUpdateLogo)}
-                  className="absolute -bottom-2 -right-2 bg-white text-brand-black p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
-                  title="Upload Logo"
-                >
-                  <Upload size={12} />
-                </button>
-              )}
+            )}
+            <div className="flex flex-col leading-none">
+              <span className="text-white font-display font-bold text-lg tracking-tight">JAPONI AUTO</span>
+              <span className="text-gray-400 text-[10px] tracking-[0.2em] uppercase">Rabat</span>
             </div>
-          )}
+            {isAdmin && (
+              <button
+                onClick={() => openUploadWidget(handleUpdateLogo)}
+                className="absolute -bottom-2 -right-2 bg-white text-brand-black p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-10"
+                title={logoUrl ? "Change Logo" : "Upload Logo"}
+              >
+                <Upload size={12} />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Desktop Nav */}
