@@ -1,8 +1,12 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { X, MessageSquare, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { X, MessageSquare, ChevronLeft, ChevronRight, CheckCircle2, Edit2, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Car } from '@/src/data/cars';
+import { useAdmin } from '../context/AdminContext';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import CarForm from './CarForm';
 
 interface CarDetailProps {
   car: Car | null;
@@ -11,7 +15,9 @@ interface CarDetailProps {
 
 export default function CarDetail({ car, onClose }: CarDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
   const { t } = useTranslation();
+  const { isAdmin } = useAdmin();
 
   if (!car) return null;
 
@@ -21,6 +27,18 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
 
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + car.images.length) % car.images.length);
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this car?')) return;
+    try {
+      if (car.id) {
+        await deleteDoc(doc(db, 'cars', car.id));
+        onClose();
+      }
+    } catch (error) {
+      handleFirestoreError(error, OperationType.DELETE, 'cars');
+    }
   };
 
   return (
@@ -45,6 +63,24 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
                 <h2 className="text-xl font-display font-bold text-white">{car.name}</h2>
               </div>
               <div className="flex items-center gap-4">
+                {isAdmin && (
+                  <div className="flex items-center gap-2 mr-4 border-r border-white/10 pr-4">
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="flex items-center gap-2 bg-white/5 border border-white/10 text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-white/10 transition-colors"
+                    >
+                      <Edit2 size={16} />
+                      Edit
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-2 rounded-full text-sm font-bold hover:bg-red-500/20 transition-colors"
+                    >
+                      <Trash2 size={16} />
+                      Delete
+                    </button>
+                  </div>
+                )}
                 <span className="text-2xl font-bold text-white">{car.price}</span>
                 <a
                   href={`https://wa.me/212661294981?text=I'm interested in the ${car.name}`}
@@ -191,9 +227,16 @@ export default function CarDetail({ car, onClose }: CarDetailProps) {
               </div>
             </div>
           </div>
+
+          <AnimatePresence>
+            {isEditing && (
+              <CarForm car={car} onClose={() => setIsEditing(false)} />
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
+
 

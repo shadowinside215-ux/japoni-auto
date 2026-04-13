@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Phone, MessageSquare, Globe } from 'lucide-react';
+import { Menu, X, Phone, MessageSquare, Globe, LogIn, LogOut, Upload } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useAdmin } from '../context/AdminContext';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { cn } from '@/src/lib/utils';
 
 export default function Navbar({ logoUrl }: { logoUrl?: string }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
+  const { isAdmin, user, login, logout } = useAdmin();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +20,45 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const openUploadWidget = (callback: (url: string) => void) => {
+    // @ts-ignore
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    // @ts-ignore
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+    if (!cloudName || !uploadPreset) {
+      alert('Cloudinary credentials are not configured.');
+      return;
+    }
+
+    // @ts-ignore
+    const widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: cloudName,
+        uploadPreset: uploadPreset,
+        sources: ['local', 'url'],
+        multiple: false,
+      },
+      (error: any, result: any) => {
+        if (!error && result && result.event === "success") {
+          callback(result.info.secure_url);
+        }
+      }
+    );
+    widget.open();
+  };
+
+  const handleUpdateLogo = async (url: string) => {
+    try {
+      await setDoc(doc(db, 'settings', 'global'), {
+        logoUrl: url,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+    } catch (error) {
+      handleFirestoreError(error, OperationType.WRITE, 'settings/global');
+    }
+  };
 
   const navLinks = [
     { name: t('nav.home'), href: '#' },
@@ -40,9 +83,20 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           {logoUrl ? (
-            <img src={logoUrl} alt="Japoni Auto" className="h-10 w-auto object-contain" />
+            <div className="relative group">
+              <img src={logoUrl} alt="Japoni Auto" className="h-10 w-auto object-contain" />
+              {isAdmin && (
+                <button
+                  onClick={() => openUploadWidget(handleUpdateLogo)}
+                  className="absolute -bottom-2 -right-2 bg-white text-brand-black p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                  title="Change Logo"
+                >
+                  <Upload size={12} />
+                </button>
+              )}
+            </div>
           ) : (
-            <>
+            <div className="relative group flex items-center gap-2">
               <div className="w-10 h-10 bg-white flex items-center justify-center rounded-sm">
                 <span className="text-brand-black font-bold text-xl">J</span>
               </div>
@@ -50,7 +104,16 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
                 <span className="text-white font-display font-bold text-lg tracking-tight">JAPONI AUTO</span>
                 <span className="text-gray-400 text-[10px] tracking-[0.2em] uppercase">Rabat</span>
               </div>
-            </>
+              {isAdmin && (
+                <button
+                  onClick={() => openUploadWidget(handleUpdateLogo)}
+                  className="absolute -bottom-2 -right-2 bg-white text-brand-black p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                  title="Upload Logo"
+                >
+                  <Upload size={12} />
+                </button>
+              )}
+            </div>
           )}
         </div>
 
@@ -83,15 +146,39 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
             ))}
           </div>
 
-          <a
-            href="https://wa.me/212661294981"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-white text-brand-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors"
-          >
-            <MessageSquare size={16} />
-            {t('hero.whatsapp')}
-          </a>
+          <div className="flex items-center gap-4">
+            {user ? (
+              <button
+                onClick={logout}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all",
+                  isAdmin ? "bg-red-500/10 text-red-500 hover:bg-red-500/20" : "text-gray-400 hover:text-white"
+                )}
+                title={isAdmin ? "Admin Logged In" : "Sign Out"}
+              >
+                <LogOut size={16} />
+                {isAdmin ? "Admin" : "Sign Out"}
+              </button>
+            ) : (
+              <button
+                onClick={login}
+                className="text-gray-400 hover:text-white transition-colors"
+                title="Admin Login"
+              >
+                <LogIn size={20} />
+              </button>
+            )}
+
+            <a
+              href="https://wa.me/212661294981"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-white text-brand-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors"
+            >
+              <MessageSquare size={16} />
+              {t('hero.whatsapp')}
+            </a>
+          </div>
         </div>
 
         {/* Mobile Toggle */}
@@ -138,19 +225,47 @@ export default function Navbar({ logoUrl }: { logoUrl?: string }) {
                 {link.name}
               </a>
             ))}
-            <a
-              href="https://wa.me/212661294981"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-white text-brand-black py-3 rounded-lg font-bold"
-            >
-              <MessageSquare size={20} />
-              {t('hero.whatsapp')}
-            </a>
+            
+            <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
+              {user ? (
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-center gap-2 text-red-500 font-bold py-2"
+                >
+                  <LogOut size={20} />
+                  {isAdmin ? "Admin Logout" : "Sign Out"}
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    login();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-center gap-2 text-white font-bold py-2"
+                >
+                  <LogIn size={20} />
+                  Admin Login
+                </button>
+              )}
+              
+              <a
+                href="https://wa.me/212661294981"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 bg-white text-brand-black py-3 rounded-lg font-bold"
+              >
+                <MessageSquare size={20} />
+                {t('hero.whatsapp')}
+              </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
     </nav>
   );
 }
+
 
